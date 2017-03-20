@@ -53,7 +53,7 @@ public class CategoryDao {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
-                Category cat = createCategoryFromStr(line);     // First line is column names
+                Category cat = buildCategoryFromDataEntry(line);     // First line is column names
                 if (cat != null) {
                     categories.put(cat.getId(), cat);
                 }
@@ -83,7 +83,7 @@ public class CategoryDao {
             while ((line = br.readLine()) != null) {
                 curIndent = line.split("-")[0].length();
                 
-                Category cat = parse(line);
+                Category cat = buildCategoryFromText(line);
                 cat.setId(index);
                 cat.setIndent(curIndent);
                 categories.put(index, cat);
@@ -145,8 +145,8 @@ public class CategoryDao {
      *            category ID
      * @return category object
      */
-    public Category getCategoryById(int catId) {
-        return categories.get(catId);
+    public Category getCategoryById(Integer catId) {
+        return catId != null ? categories.get(catId) : null;
     }
 
     /**
@@ -211,14 +211,14 @@ public class CategoryDao {
     }
 
     /**
-     * Create category object from string, we assume that the data file should
+     * Create category object from data entry, we assume that the data file should
      * be well organized.
      * 
      * @param str
      *            one line of text in data file
      * @return category object
      */
-    private Category createCategoryFromStr(String str) {
+    private Category buildCategoryFromDataEntry(String str) {
         Category category = null;
         try {
             category = new Category();
@@ -235,7 +235,15 @@ public class CategoryDao {
         return category;
     }
     
-    private Category parse(String str) {
+    /**
+     * Create category object from text line, we assume that the data file should
+     * be well organized.
+     * 
+     * @param str
+     *            one line of text in data file
+     * @return category object
+     */
+    private Category buildCategoryFromText(String str) {
         // Get price
         Pattern pattern = Pattern.compile("\\-\\s*(.+?)\\s{2,}\\[(\\d+){0,1}\\]");
         Matcher m = pattern.matcher(str);
