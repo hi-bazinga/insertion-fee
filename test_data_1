@@ -1,0 +1,2 @@
+-- id, name, price, parent_id, first_child_id, next_sibling_id --
+1,Root Category,1001,null,null,null
