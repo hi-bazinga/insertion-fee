@@ -39,6 +39,12 @@ public class CategoryController {
         response.setContentType("text/html");
         return categoryService.getCategories().toTreeHtml();
     }
+    
+    @RequestMapping(value = "/{cat_id}", method = RequestMethod.GET, headers = "accept=application/json")
+    @ResponseBody
+    public Category getCategoryById(@PathVariable("cat_id") int catId) {
+        return categoryService.getCategory(catId);
+    }
 
     @RequestMapping(value = "/{cat_id}/price", method = RequestMethod.GET, headers = "accept=application/json")
     @ResponseBody

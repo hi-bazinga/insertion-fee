@@ -23,10 +23,18 @@ public class CategoryService {
 
     /**
      * Get categories in tree format
-     * @return root category
+     * @return root category with children
      */
     public Category getCategories() {
         return categoryDao.getCategoryTree();
+    }
+    
+    /**
+     * Get category
+     * @return category object
+     */
+    public Category getCategory(int catId) {
+        return categoryDao.getCategoryById(catId);
     }
     
     /**
